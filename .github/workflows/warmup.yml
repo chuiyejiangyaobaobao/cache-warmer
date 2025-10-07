@@ -15,9 +15,8 @@ jobs:
     steps:
       - name: Warm up all URLs
         run: |
-          echo "开始预热缓存..."
-          
-          # 在这里直接添加需要预热的URL
+        
+          # 预热url列表
           URLS=(
             "https://blog.cy00.top/"
             "https://blog.cy00.top/privacy/"
@@ -38,7 +37,9 @@ jobs:
           
           # 预热文章页面
           for i in {1..20}; do
+            echo "预热: https://blog.cy00.top/posts/$i/"
             curl -s -o /dev/null "https://blog.cy00.top/posts/$i/" &
+            echo "预热: https://blog2.cy00.top/posts/$i/"
             curl -s -o /dev/null "https://blog2.cy00.top/posts/$i/" &
           done          
           
