@@ -1,0 +1,44 @@
+# .github/workflows/warmup.yml
+name: Cache Warmer
+
+on:
+  schedule:
+    # 工作间隔
+    - cron: '0 */12 * * *'   # (每12h工作一次)
+  workflow_dispatch:
+
+jobs:
+  warmup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Warm up all URLs
+        run: |
+          echo "开始预热缓存..."
+          
+          # 在这里直接添加需要预热的URL
+          URLS=(
+            "https://blog.cy00.top/"
+            "https://blog.cy00.top/privacy/"
+            "https://blog.cy00.top/friends/"
+            "https://blog.cy00.top/archive/"
+            "https://blog2.cy00.top/"
+            "https://blog2.cy00.top/privacy/"
+            "https://blog2.cy00.top/friends/"
+            "https://blog2.cy00.top/archive/"            
+          )
+          
+          for url in "${URLS[@]}"; do
+            if [ -n "$url" ]; then
+              echo "预热: $url"
+              curl -s -o /dev/null -H "User-Agent: Cache-Warmer" "$url" &
+            fi
+          done
+          
+          # 预热文章页面
+          for i in {1..20}; do
+            curl -s -o /dev/null "https://blog.cy00.top/posts/$i/" &
+            curl -s -o /dev/null "https://blog2.cy00.top/posts/$i/" &
+          done          
+          
+          wait
+          echo "完成！"
