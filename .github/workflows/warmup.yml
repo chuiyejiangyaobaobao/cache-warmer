@@ -41,4 +41,4 @@ jobs:
           done          
           
           wait
-          echo "完成！"
+          echo "完成!"
