@@ -6,7 +6,7 @@ on:
     branches: [ main ]
   schedule:
     # 工作间隔
-    - cron: '0 */12 * * *'   # (每12h工作一次)
+    - cron: '0 */8 * * *'   # (每8h工作一次)
   workflow_dispatch:
 
 jobs:
